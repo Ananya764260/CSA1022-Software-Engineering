@@ -1,1 +1,79 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Ticket Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>🚌 EasyBus</h1>
+        <p>Your journey, our priority!</p>
+    </header>
+
+    <main>
+        <section class="booking-box">
+            <h2>Book Your Bus Ticket</h2>
+
+            <label for="from">From</label>
+            <select id="from">
+                <option>Chennai</option>
+                <option>Bangalore</option>
+                <option>Hyderabad</option>
+                <option>Vijayawada</option>
+            </select>
+
+            <label for="to">To</label>
+            <select id="to">
+                <option>Bangalore</option>
+                <option>Chennai</option>
+                <option>Hyderabad</option>
+                <option>Vijayawada</option>
+            </select>
+
+            <label for="date">Journey Date</label>
+            <input type="date" id="date">
+
+            <label for="passengers">Passengers</label>
+            <input type="number" id="passengers" min="1" max="6" value="1">
+
+            <button onclick="searchBuses()">Search Buses</button>
+            <p id="message"></p>
+        </section>
+
+        <section id="results" class="results">
+            <h2>Available AC Sleeper Buses</h2>
+
+            <div class="bus-card">
+                <h3>AC Sleeper Express</h3>
+                <p>9:00 PM – 6:00 AM</p>
+                <p>⭐ 4.5 | ₹899 per passenger</p>
+                <button onclick="bookBus('AC Sleeper Express', 899)">
+                    Select Bus
+                </button>
+            </div>
+
+            <div class="bus-card">
+                <h3>Night Rider</h3>
+                <p>10:30 PM – 7:30 AM</p>
+                <p>⭐ 4.3 | ₹799 per passenger</p>
+                <button onclick="bookBus('Night Rider', 799)">
+                    Select Bus
+                </button>
+            </div>
+
+            <div id="confirmation" class="confirmation"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 EasyBus | Bus Ticket Booking System</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
