@@ -1,0 +1,7 @@
+Summary,Issue Type,Status,Priority
+Design database schema,Task,To Do,High
+Create login page,Task,To Do,High
+Implement book search API,Task,To Do,Medium
+Write unit tests for search,Task,To Do,Medium
+Set up CI pipeline,Task,To Do,Low
+Prepare project documentation,Task,To Do,Low

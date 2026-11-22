@@ -1,0 +1,8 @@
+Summary,Issue Type,Priority,Story Points
+Create user registration page,Story,Highest,3
+Develop API for login,Story,Highest,5
+Create user login page,Story,High,3
+Develop book search functionality,Story,High,5
+Design database schema,Task,High,3
+Implement book reservation,Story,Medium,8
+Generate monthly reports,Story,Low,5

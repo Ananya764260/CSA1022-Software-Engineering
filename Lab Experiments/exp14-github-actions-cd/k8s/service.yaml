@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cd-demo
+spec:
+  type: LoadBalancer
+  selector: {app: cd-demo}
+  ports:
+    - port: 80
+      targetPort: 5000

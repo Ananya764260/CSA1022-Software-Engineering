@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+    environment {
+        IMAGE = "<dockerhub-user>/sample-app"
+        TAG   = "${env.BUILD_NUMBER}"
+    }
+    triggers { pollSCM('H/2 * * * *') }
+    stages {
+        stage('Checkout') {
+            steps { checkout scm }
+        }
+        stage('Test') {
+            steps {
+                dir('app') {
+                    sh 'python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && pytest -q'
+                }
+            }
+        }
+        stage('Build Image') {
+            steps { sh 'docker build -t $IMAGE:$TAG -t $IMAGE:latest app' }
+        }
+        stage('Push Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
+                                 usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
+                    sh 'echo $DH_PASS | docker login -u $DH_USER --password-stdin'
+                    sh 'docker push $IMAGE:$TAG && docker push $IMAGE:latest'
+                }
+            }
+        }
+        stage('Deploy') {
+            when { branch 'main' }
+            steps {
+                // Example: deploy to a VM on AWS EC2 / GCP Compute Engine over SSH
+                sshagent(credentials: ['cloud-ssh-key']) {
+                    sh '''
+                      ssh -o StrictHostKeyChecking=no ubuntu@<server-ip> "
+                        docker pull $IMAGE:$TAG &&
+                        docker rm -f sample-app || true &&
+                        docker run -d --name sample-app -p 80:5000 $IMAGE:$TAG"
+                    '''
+                }
+            }
+        }
+    }
+    post {
+        always  { sh 'docker logout || true' }
+        success { echo 'Pipeline succeeded' }
+        failure { echo 'Pipeline failed' }
+    }
+}

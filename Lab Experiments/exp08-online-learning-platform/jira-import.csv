@@ -1,0 +1,7 @@
+Summary,Issue Type,Priority,Labels,Description
+Course enrollment and registration,Story,Highest,MoSCoW-Must Kano-Basic,Learners cannot access content without it
+Video lecture streaming,Story,Highest,MoSCoW-Must Kano-Basic,Primary delivery method for a learning platform
+Interactive quizzes and assignments,Story,High,MoSCoW-Should Kano-Performance,Improves learning outcomes; richer quizzes increase satisfaction
+Progress tracking dashboard,Story,High,MoSCoW-Should Kano-Performance,Motivates learners; more insight = more value
+Peer-to-peer discussion forums,Story,Medium,MoSCoW-Could Kano-Attractive,Unexpected community value; platform works without it
+Certificate generation,Story,Medium,MoSCoW-Could Kano-Attractive,Delights completers; can be added once courses exist

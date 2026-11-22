@@ -1,0 +1,5 @@
+Summary,Issue Type,Priority,Labels,Description
+User login and role assignment,Story,Highest,MoSCoW-Must Kano-Basic,Without authentication and roles no team can use the system safely; users assume it exists
+Task creation and assignment,Story,Highest,MoSCoW-Must Kano-Basic,The core purpose of the product; absence = unusable
+Task prioritization and deadlines,Story,High,MoSCoW-Should Kano-Performance,Greatly improves planning; better priority/deadline handling = higher satisfaction
+Progress tracking and reporting,Story,High,MoSCoW-Should Kano-Attractive,Dashboards and reports delight managers; basic status tracking can come first

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>To-Do (K8s)</title></head>
+<body style="font-family:Arial;max-width:480px;margin:40px auto">
+<h2>To-Do List</h2>
+<input id="t" placeholder="New task"><button onclick="add()">Add</button>
+<ul id="l"></ul>
+<script>
+async function load(){const r=await fetch('/api/todos');const d=await r.json();
+ document.getElementById('l').innerHTML=d.map(x=>'<li>'+x.title+'</li>').join('')}
+async function add(){const v=document.getElementById('t').value;
+ await fetch('/api/todos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:v})});
+ document.getElementById('t').value='';load()}
+load();
+</script></body></html>
