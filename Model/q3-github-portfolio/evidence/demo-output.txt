@@ -1,0 +1,61 @@
+$ # Step 1: repository created on GitHub with an initial README
+
+$ git clone https://github.com/<user>/portfolio-website.git
+.
+..
+.git
+README.md
+
+$ # Step 2: files that must NOT be committed appear in the working folder
+$ git status --short      (BEFORE .gitignore: junk and secrets show as untracked)
+?? .DS_Store
+?? .env
+?? debug.log
+?? node_modules/
+
+$ # Step 3: add .gitignore
+$ git status --short      (AFTER .gitignore: only .gitignore itself is listed)
+?? .gitignore
+
+$ git status --ignored --short
+?? .gitignore
+!! .DS_Store
+!! .env
+!! debug.log
+!! node_modules/
+
+$ git check-ignore -v .env debug.log node_modules/pkg.js
+.gitignore:5:.env	.env
+.gitignore:9:*.log	debug.log
+.gitignore:2:node_modules/	node_modules/pkg.js
+
+$ # Step 4: update README.md with the project description
+ README.md | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
+
+$ # Step 5: add the website files
+$ git add .   (ignored files are skipped)
+
+$ git push origin main
+To github-remote.git
+   7a1f95d..2d12990  main -> main
+
+$ git log --oneline
+2d12990 feat: add portfolio homepage and stylesheet
+d1294ee docs: add project description to README
+f6cba81 chore: add .gitignore for node_modules, env files and logs
+7a1f95d Initial commit
+
+$ git ls-files        (what Git tracks; no .env, node_modules or logs)
+.gitignore
+README.md
+css/style.css
+index.html
+
+$ # Caveat: .gitignore does not untrack files that were ALREADY committed
+$ git status --short      (still tracked: edits would still show)
+ M .env.local2
+ M .gitignore
+$ git rm --cached .env.local2   (stop tracking, keep the file on disk)
+D  .env.local2
+ M .gitignore

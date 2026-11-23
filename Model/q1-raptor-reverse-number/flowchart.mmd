@@ -1,0 +1,10 @@
+flowchart TD
+    A([Start]) --> B[/Input n/]
+    B --> C[rev = 0]
+    C --> D{n > 0 ?}
+    D -- Yes --> E[digit = n mod 10]
+    E --> F[rev = rev * 10 + digit]
+    F --> G[n = floor of n / 10]
+    G --> D
+    D -- No --> H[/Output rev/]
+    H --> I([End])

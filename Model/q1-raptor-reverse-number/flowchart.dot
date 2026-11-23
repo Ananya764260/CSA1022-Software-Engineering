@@ -1,0 +1,23 @@
+digraph reverse_number {
+  rankdir=TB; nodesep=0.5; ranksep=0.45;
+  node [fontname="Helvetica", fontsize=12, style=filled, fillcolor="#FFFFFF"];
+  edge [fontname="Helvetica", fontsize=11];
+
+  start  [label="Start",                         shape=ellipse,       fillcolor="#C8E6C9"];
+  input  [label="Input n",                       shape=parallelogram, fillcolor="#BBDEFB"];
+  init   [label="rev ← 0",                       shape=box,           fillcolor="#FFF9C4"];
+  cond   [label="n > 0 ?",                       shape=diamond,       fillcolor="#FFE0B2"];
+  digit  [label="digit ← n mod 10",              shape=box,           fillcolor="#FFF9C4"];
+  build  [label="rev ← rev × 10 + digit",        shape=box,           fillcolor="#FFF9C4"];
+  shrink [label="n ← floor( n / 10 )",           shape=box,           fillcolor="#FFF9C4"];
+  output [label="Output rev",                    shape=parallelogram, fillcolor="#BBDEFB"];
+  end    [label="End",                           shape=ellipse,       fillcolor="#FFCDD2"];
+
+  start -> input -> init -> cond;
+  cond -> digit  [label=" Yes"];
+  digit -> build -> shrink;
+  shrink -> cond [constraint=false];
+  cond -> output [label=" No"];
+  output -> end;
+  {rank=same; cond; }
+}

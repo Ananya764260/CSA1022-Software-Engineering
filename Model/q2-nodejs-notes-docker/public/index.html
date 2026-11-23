@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notes App</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; }
+    input, textarea { width: 100%; box-sizing: border-box; margin: 4px 0 8px; padding: 8px; }
+    button { padding: 6px 12px; margin-right: 6px; cursor: pointer; }
+    .note { border: 1px solid #ccc; border-radius: 6px; padding: 10px; margin: 10px 0; }
+    .note h3 { margin: 0 0 4px; }
+  </style>
+</head>
+<body>
+  <h1>Notes</h1>
+  <input id="title" placeholder="Title">
+  <textarea id="content" rows="3" placeholder="Content"></textarea>
+  <button id="save">Add note</button><button id="cancel" hidden>Cancel edit</button>
+  <div id="list"></div>
+
+  <script>
+    let editingId = null;
+    const $ = (id) => document.getElementById(id);
+
+    async function load() {
+      const notes = await (await fetch('/notes')).json();
+      $('list').innerHTML = '';
+      notes.forEach((n) => {
+        const div = document.createElement('div');
+        div.className = 'note';
+        const h = document.createElement('h3'); h.textContent = n.title;
+        const p = document.createElement('p'); p.textContent = n.content;
+        const edit = document.createElement('button'); edit.textContent = 'Edit';
+        edit.onclick = () => { editingId = n.id; $('title').value = n.title; $('content').value = n.content;
+                               $('save').textContent = 'Save changes'; $('cancel').hidden = false; };
+        const del = document.createElement('button'); del.textContent = 'Delete';
+        del.onclick = async () => { await fetch('/notes/' + n.id, { method: 'DELETE' }); load(); };
+        div.append(h, p, edit, del);
+        $('list').append(div);
+      });
+    }
+
+    function reset() { editingId = null; $('title').value = ''; $('content').value = '';
+                       $('save').textContent = 'Add note'; $('cancel').hidden = true; }
+
+    $('save').onclick = async () => {
+      const body = JSON.stringify({ title: $('title').value, content: $('content').value });
+      const url = editingId ? '/notes/' + editingId : '/notes';
+      const res = await fetch(url, { method: editingId ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body });
+      if (!res.ok) { alert((await res.json()).error); return; }
+      reset(); load();
+    };
+    $('cancel').onclick = reset;
+    load();
+  </script>
+</body>
+</html>

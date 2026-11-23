@@ -1,0 +1,54 @@
+@startuml SmartParking
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor "Driver" as Driver
+actor "Parking Attendant" as Attendant
+actor "Administrator" as Admin
+actor "Payment Gateway" as Payment <<secondary>>
+actor "ANPR Camera" as Camera <<secondary>>
+
+rectangle "Smart Parking Management System" {
+  usecase "Search Free\nParking Slots" as Search
+  usecase "Reserve\nParking Slot" as Reserve
+  usecase "Pay Parking Fee\nOnline" as Pay
+  usecase "Enter Car Park" as Enter
+  usecase "Exit Car Park" as Exit
+  usecase "Handle Lost Ticket" as Lost
+  usecase "Enter Plate\nManually" as Manual
+  usecase "Configure Tariff" as Tariff
+  usecase "View Occupancy\nReports" as Report
+  usecase "Login" as Login
+  usecase "Read Number\nPlate" as Read
+  usecase "Open Barrier" as Open
+  usecase "Calculate\nParking Fee" as Calc
+}
+
+Driver --> Search
+Driver --> Reserve
+Driver --> Pay
+Driver --> Enter
+Driver --> Exit
+Attendant --> Lost
+Attendant --> Manual
+Admin --> Tariff
+Admin --> Report
+Pay -- Payment
+Read -- Camera
+
+Reserve ..> Login : <<include>>
+Pay ..> Login : <<include>>
+Lost ..> Login : <<include>>
+Tariff ..> Login : <<include>>
+Report ..> Login : <<include>>
+Pay ..> Calc : <<include>>
+Exit ..> Calc : <<include>>
+Enter ..> Read : <<include>>
+Exit ..> Read : <<include>>
+Enter ..> Open : <<include>>
+Exit ..> Open : <<include>>
+
+Lost ..> Exit : <<extend>>
+Manual ..> Read : <<extend>>
+@enduml
